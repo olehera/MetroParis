@@ -25,8 +25,7 @@ public class MetroDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Fermata f = new Fermata(rs.getInt("id_Fermata"), rs.getString("nome"),
-						new LatLng(rs.getDouble("coordx"), rs.getDouble("coordy")));
+				Fermata f = new Fermata(rs.getInt("id_Fermata"), rs.getString("nome"), new LatLng(rs.getDouble("coordx"), rs.getDouble("coordy")));
 				fermate.add(f);
 			}
 
@@ -52,8 +51,7 @@ public class MetroDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Linea f = new Linea(rs.getInt("id_linea"), rs.getString("nome"), rs.getDouble("velocita"),
-						rs.getDouble("intervallo"));
+				Linea f = new Linea(rs.getInt("id_linea"), rs.getString("nome"), rs.getDouble("velocita"), rs.getDouble("intervallo"));
 				linee.add(f);
 			}
 
@@ -66,6 +64,58 @@ public class MetroDAO {
 		}
 
 		return linee;
+	}
+	
+	public boolean esisteConnessione(Fermata partenza, Fermata arrivo) {
+		final String sql = "SELECT COUNT(*) AS cnt FROM connessione WHERE id_stazP = ? AND id_stazA = ?";
+		
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, partenza.getIdFermata());
+			st.setInt(2, arrivo.getIdFermata());
+			ResultSet rs = st.executeQuery();
+
+			rs.next();
+			
+			int numero = rs.getInt("cnt");
+
+			conn.close();
+			
+			return (numero>0);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore di connessione al Database.");
+		}
+				
+	}
+
+	public List<Fermata> stazioniArrivo(Fermata partenza) {
+		final String sql = "SELECT id_stazA FROM connessione WHERE id_stazP = ?";
+		
+		List<Fermata> fermate = new ArrayList<Fermata>();
+		
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, partenza.getIdFermata());
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Fermata f = new Fermata(rs.getInt("id_stazP"));
+				
+				fermate.add(f);
+			}
+
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore di connessione al Database.");
+		}
+		
+		return fermate;
 	}
 
 

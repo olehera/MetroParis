@@ -4,14 +4,14 @@
 
 Si vuole costruire un grafo che permetta la ricerca dei percorsi all'interno della Metropolitana di Parigi.
 
-Il grafo dovr√† avere le seguenti caratteristiche:
-- il grafo sar√† semplice, orientato, non pesato
+Il grafo dovr‡† avere le seguenti caratteristiche:
+- il grafo sar‡† semplice, orientato, non pesato
 - ciascuna `Fermata` corrisponde ad un vertice del grafo
 - due vertici saranno collegati da un arco se e solo se esiste almeno una `Connessione` tra le due fermate.
 
 ## Costruzione del grafo
 
-Si sperimentino tre diverse modalit√† di costruzione degli archi del grafo:
+Si sperimentino tre diverse modalit‡† di costruzione degli archi del grafo:
 
 1.  doppio loop sulle coppie di vertici, per ogni coppia fare una query per determinare se esiste l'arco o meno
 1.  singolo loop sui vertici, per ogni vertice fare una query che restituisca l'elenco di tutti i vertici che dovranno essere adiacenti
@@ -21,15 +21,15 @@ Si sperimentino tre diverse modalit√† di costruzione degli archi del grafo:
 
 - Permettere all'utente di selezionare una stazione di partenza.
 - Visitare il grafo partendo da tale stazione
-     - provare sia con la visita in ampiezza, che in profondit√†
+     - provare sia con la visita in ampiezza, che in profondit‡†
 - Stampare l'elenco dei vertici raggiunti nella visita
 
 
 ## Estensioni possibili
 
 Si considerino le seguenti possibili estensioni:
-- il grafo √® un grafo pesato, in cui il peso rappresenta il numero di `Linee` che connettono le due `Fermate`
-- il grafo √® un multi-grafo, in cui se esistono pi√π `Linee` che collegano due `Fermate`, allora saranno aggiunti altrettanti archi.
+- il grafo Ë un grafo pesato, in cui il peso rappresenta il numero di `Linee` che connettono le due `Fermate`
+- il grafo Ë un multi-grafo, in cui se esistono pi˘ `Linee` che collegano due `Fermate`, allora saranno aggiunti altrettanti archi.
      - il multi-grafo viene pesato, calcolando come peso il tempo di percorrenza tra le due `Fermate`. Per tale calcolo si utilizzi la `velocita` dichiarata per la linea, tenendo conto della distanza in linea d'aria tra le due `Fermate`
 
 ## Classi del Model
