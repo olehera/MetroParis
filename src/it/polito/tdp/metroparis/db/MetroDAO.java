@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.javadocmd.simplelatlng.LatLng;
 
@@ -91,7 +92,7 @@ public class MetroDAO {
 				
 	}
 
-	public List<Fermata> stazioniArrivo(Fermata partenza) {
+	public List<Fermata> stazioniArrivo(Fermata partenza, Map<Integer, Fermata> idMap) {
 		final String sql = "SELECT id_stazA FROM connessione WHERE id_stazP = ?";
 		
 		List<Fermata> fermate = new ArrayList<Fermata>();
@@ -103,9 +104,7 @@ public class MetroDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Fermata f = new Fermata(rs.getInt("id_stazP"));
-				
-				fermate.add(f);
+				fermate.add(idMap.get(rs.getInt("id_stazA")));
 			}
 
 			conn.close();

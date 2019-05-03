@@ -1,6 +1,8 @@
 package it.polito.tdp.metroparis.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
@@ -13,47 +15,53 @@ public class Model {
 	
 	private Graph<Fermata, DefaultEdge> grafo;
 	private List<Fermata> fermate;
+	private Map<Integer, Fermata> fermateIdMap;
 	
 	public void creaGrafo() {
 		
 		// creo il grafo
-		this.grafo = new SimpleDirectedGraph<>(DefaultEdge.class);
+		grafo = new SimpleDirectedGraph<>(DefaultEdge.class);
 		
 		// aggiungo i vertici
 		MetroDAO dao = new MetroDAO();
-		this.fermate = dao.getAllFermate();
-		Graphs.addAllVertices(this.grafo, this.fermate);
+		fermate = dao.getAllFermate();
+		Graphs.addAllVertices(grafo, fermate);
+		
+		// creo idMap
+		fermateIdMap = new HashMap<>() ;
+		for (Fermata f : fermate)
+			fermateIdMap.put(f.getIdFermata(), f) ;
 		
 		// aggiungo gli archi:
 		
-		/* 1° opzione
-		for (Fermata partenza : this.grafo.vertexSet())
-			for (Fermata arrivo : this.grafo.vertexSet())
+		/* 1° opzione: per ogni coppia di vertici fare una query per determinare se esiste l'arco o meno
+		for (Fermata partenza : grafo.vertexSet())
+			for (Fermata arrivo : grafo.vertexSet())
 				if (dao.esisteConnessione(partenza, arrivo))
-					this.grafo.addEdge(partenza, arrivo);
+					grafo.addEdge(partenza, arrivo);
 		*/
 		
-		/* 2° opzione
-		for (Fermata partenza : this.grafo.vertexSet()) {
-			List<Fermata> arrivi = dao.stazioniArrivo(partenza);
+		/* 2° opzione: per ogni vertice fare una query che restituisca l'elenco di tutti i vertici che dovranno essere adiacenti
+		for (Fermata partenza : grafo.vertexSet()) {
+			List<Fermata> arrivi = dao.stazioniArrivo(partenza, fermateIdMap);
 			
 			for (Fermata arrivo : arrivi)
-				this.grafo.addEdge(partenza, arrivo);
+				grafo.addEdge(partenza, arrivo);
 		}
 		*/
 		
-		// 3° opzione
+		// 3° opzione: singola query che produce "subito" tutto il grafo
 		
 		
 		
 	}
 	
 	public Graph<Fermata, DefaultEdge> getGrafo() {
-		return this.grafo;
+		return grafo;
 	}
 	
 	public List<Fermata> getFermate() {
-		return this.fermate;
+		return fermate;
 	}
 
 }
