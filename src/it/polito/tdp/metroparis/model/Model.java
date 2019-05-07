@@ -33,7 +33,7 @@ public class Model {
 		@Override
 		public void edgeTraversed(EdgeTraversalEvent<DefaultEdge> e) {
 			
-	/*		back codifica relazioni del tipo child --> parent
+	/*		backVisit codifica relazioni del tipo child (chiave) --> parent (valore)
 	 * 
 	 *      per un nuovo vertice child scoperto devo avere che:
 	 *      - child è ancora sconosciuto (non ancora trovato)
@@ -146,6 +146,15 @@ public class Model {
 	
 	public List<Fermata> getFermate() {
 		return fermate;
+	}
+	
+	public List<String> getElencoFermate(List<Fermata> fer) {
+		List<String> elenco = new LinkedList<String>();
+		
+		for (Fermata f : fer)
+			elenco.add(f.getNome());
+			
+		return elenco;
 	}
 
 }

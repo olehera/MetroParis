@@ -17,7 +17,7 @@ public class TestModel {
 		Fermata source = m.getFermate().get(0);
 		System.out.println("\nParto da: "+source);
 		List<Fermata> raggiungibili = m.fermateRaggiungibili(source);
-		System.out.println("Fermate raggiunte: "+raggiungibili+" ("+raggiungibili.size()+")");
+		System.out.println("Fermate raggiungibili: "+raggiungibili+" ("+raggiungibili.size()+")");
 		
 		Fermata target = m.getFermate().get(150);
 		System.out.println("\nArrivo a: "+target);
