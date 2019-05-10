@@ -10,7 +10,7 @@ public class TestModel {
 		
 		m.creaGrafo();
 		
-//		System.out.println(m.getGrafo());
+		System.out.println(m.getGrafo());
 		
 		System.out.format("Creati %d vertici e %d archi\n", m.getGrafo().vertexSet().size(), m.getGrafo().edgeSet().size());
 		
