@@ -19,8 +19,7 @@ public class MetroController {
 	public void setModel(Model model) {
 		this.model = model;
 		model.creaGrafo();
-		List<Fermata> fermate = model.getFermate();
-		cbxPartenza.getItems().addAll(model.getElencoFermate(fermate));
+		cbxPartenza.getItems().addAll(model.getFermate());
 	}
 
     @FXML
@@ -30,13 +29,13 @@ public class MetroController {
     private URL location;
 
     @FXML
-    private ChoiceBox<String> cbxPartenza;
+    private ChoiceBox<Fermata> cbxPartenza;
 
     @FXML
     private Button btnFermate;
 
     @FXML
-    private ChoiceBox<String> cbxArrivo;
+    private ChoiceBox<Fermata> cbxArrivo;
 
     @FXML
     private Button btnPercorso;
@@ -46,36 +45,26 @@ public class MetroController {
 
     @FXML
     void doCalcolaFermate(ActionEvent event) {
-    	Fermata source = null;
-    	
-    	for (Fermata f : model.getFermate())
-    		if (f.getNome().equals(cbxPartenza.getValue()))
-    			source = f;
+    	Fermata source = cbxPartenza.getValue();
     	
     	List<Fermata> fermate = model.fermateRaggiungibili(source);
-    	List<String> s = model.getElencoFermate(fermate);
-    	cbxArrivo.getItems().addAll(s);
+    	cbxArrivo.getItems().addAll(fermate);
     	
     	txtResult.clear();
-    	for (String st : s)
-    		txtResult.appendText(st+"\n");
-
+    	for (Fermata f : fermate)
+    		txtResult.appendText(f.getNome()+"\n");
     }
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
-        Fermata target = null;
+        Fermata target = cbxArrivo.getValue();
+        Fermata source = cbxPartenza.getValue();
     	
-    	for (Fermata f : model.getFermate())
-    		if (f.getNome().equals(cbxArrivo.getValue()))
-    			target = f;
-    	
-    	List<Fermata> fermate = model.percorsoFinoA(target);
-    	List<String> s = model.getElencoFermate(fermate);
+    	List<Fermata> fermate = model.trovaCamminoMinimo(source, target);
     	
     	txtResult.clear();
-    	for (String st : s)
-    		txtResult.appendText(st+"\n");
+    	for (Fermata f : fermate)
+    		txtResult.appendText(f.getNome()+"\n");
     }
 
     @FXML
